@@ -1,12 +1,15 @@
 package com.geo.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
@@ -16,7 +19,7 @@ public class Comics implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer comicsId;
 
 	@Embedded
@@ -24,8 +27,11 @@ public class Comics implements Serializable {
 
 	private String hero;
 	
-	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "comicses")
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "comicses", cascade = CascadeType.PERSIST)
 	private List<Author> authors;
+
+	public Comics() {
+	}
 
 	public Comics(String title, int year, String hero) {
 		publication = new Publication(title, year);
@@ -87,8 +93,17 @@ public class Comics implements Serializable {
 	/**
 	 * @param authors the authors to set
 	 */
+	
 	public void setAuthors(List<Author> authors) {
 		this.authors = authors;
+	}
+	
+	public void addAuthor(Author author) {
+		if (authors == null) {
+			authors = new ArrayList<>();
+		}
+		authors.add(author);
+		//author.addComics(this);
 	}
 
 	/* (non-Javadoc)

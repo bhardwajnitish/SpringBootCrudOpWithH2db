@@ -1,12 +1,14 @@
 package com.geo.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
@@ -15,7 +17,7 @@ public class Book implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	@Id @GeneratedValue
+	@Id @GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer bookId;
 
 	@Embedded
@@ -26,6 +28,8 @@ public class Book implements Serializable {
 	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "books")
 	private List<Author> authors;
 
+	public Book() {
+	}
 
 	public Book(String title, int year, String genre) {
 		publication = new Publication(title, year);
@@ -86,6 +90,13 @@ public class Book implements Serializable {
 	 */
 	public void setAuthors(List<Author> authors) {
 		this.authors = authors;
+	}
+	
+	public void addAuthor(Author author) {
+		if (authors == null) {
+			authors = new ArrayList<>();
+		}
+		authors.add(author);
 	}
 
 	public static enum BookType {

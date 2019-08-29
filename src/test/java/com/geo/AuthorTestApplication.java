@@ -1,8 +1,8 @@
 package com.geo;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
@@ -17,23 +17,24 @@ import com.geo.model.Magazine;
 import com.geo.model.Magazine.MagazineType;
 
 @SpringBootTest
-public class GeoTestApplicationTests extends AbstractTest {
-
-	@Override
-	@Before
-	public void setUp() {
-		super.setUp();
-	}
+public class AuthorTestApplication extends AbstractTest {
 
 	@Test
 	public void addAuthor() throws Exception {
 		String uri = "/authors";
 		Author author = new Author();
-		author.setName("Atul Bhatia");
+		author.setName("Stephen King");
 
-		Book book = new Book("Java", 2018, BookType.Novel.name());
-		Comics comics = new Comics("Nagraj", 2014, "Nagraj");
-		Magazine magazine = new Magazine("India Today", 2019, MagazineType.Printed.name());
+		Book book1 = new Book("The Stand", 1990, BookType.Novel.name());
+		Book book2 = new Book("The Dark Tower III: The Waste Lands", 1990, BookType.Novel.name());
+		author.addBook(book1);
+		author.addBook(book2);
+		
+		Comics comics = new Comics("Death of Superman", 1990, "Superman");
+		author.addComics(comics);
+		
+		Magazine magazine = new Magazine("India Today", 1990, MagazineType.Printed.name());
+		author.addMagazine(magazine);
 
 		String inputJson = super.mapToJson(author);
 		MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.post(uri)
@@ -41,9 +42,7 @@ public class GeoTestApplicationTests extends AbstractTest {
 				.content(inputJson)).andReturn();
 
 		int status = mvcResult.getResponse().getStatus();
-		assertEquals(200, status);
-		// String content = mvcResult.getResponse().getContentAsString();
-		//assertEquals(content, "Product is created successfully");
+		assertEquals(200, status);		
 	}
 
 	@Test
@@ -55,8 +54,8 @@ public class GeoTestApplicationTests extends AbstractTest {
 		int status = mvcResult.getResponse().getStatus();
 		assertEquals(200, status);
 		String content = mvcResult.getResponse().getContentAsString();
-		Author[] productlist = super.mapFromJson(content, Author[].class);
-		assertTrue(productlist.length > 0);
+		Author[] authorlist = super.mapFromJson(content, Author[].class);
+		assertTrue(authorlist.length > 0);
 	}
-
+	
 }

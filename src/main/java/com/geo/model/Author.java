@@ -1,6 +1,7 @@
 package com.geo.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -23,24 +24,32 @@ public class Author implements Serializable {
 	private Integer authorId;
 
 	private String name;
+	
+	public Author() {
+	}
+
+	public Author(String name) {
+		super();
+		this.name = name;
+	}
 
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinTable(name = "author_book", joinColumns = {
 			@JoinColumn(name = "authorId", nullable = false, updatable = false) }, inverseJoinColumns = {
 					@JoinColumn(name = "bookId", nullable = false, updatable = false) })
-	private List<Book> books;
+	private List<Book> books = new ArrayList<>();
 
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinTable(name = "author_magazine", joinColumns = {
 			@JoinColumn(name = "authorId", nullable = false, updatable = false) }, inverseJoinColumns = {
 					@JoinColumn(name = "magazineId", nullable = false, updatable = false) })
-	private List<Magazine> magazines;
+	private List<Magazine> magazines = new ArrayList<>();
 
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinTable(name = "author_magazine", joinColumns = {
+	@JoinTable(name = "author_comics", joinColumns = {
 			@JoinColumn(name = "authorId", nullable = false, updatable = false) }, inverseJoinColumns = {
 					@JoinColumn(name = "comicsId", nullable = false, updatable = false) })
-	private List<Comics> comicses;
+	private List<Comics> comicses = new ArrayList<>();
 
 	/**
 	 * @return the authorId
@@ -114,6 +123,27 @@ public class Author implements Serializable {
 		this.comicses = comicses;
 	}
 
+	public void addBook(Book book) {
+		if (this.books == null) {
+			this.books = new ArrayList<>();
+		}
+		this.books.add(book);
+	}
+
+	public void addComics(Comics comics) {
+		if (this.comicses == null) {
+			this.comicses = new ArrayList<>();
+		}
+		this.comicses.add(comics);
+	}
+
+	public void addMagazine(Magazine magazine) {
+		if (this.magazines == null) {
+			this.magazines = new ArrayList<>();
+		}
+		this.magazines.add(magazine);
+	}
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
@@ -122,7 +152,7 @@ public class Author implements Serializable {
 		return "Author [authorId=" + authorId + ", name=" + name + ", books=" + books + ", magazines=" + magazines
 				+ ", comicses=" + comicses + "]";
 	}	
-	
-	
+
+
 
 }

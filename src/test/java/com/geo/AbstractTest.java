@@ -2,6 +2,7 @@ package com.geo;
 
 import java.io.IOException;
 
+import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.json.JsonParseException;
@@ -20,10 +21,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public abstract class AbstractTest {
 
 	protected MockMvc mvc;
+	
 	@Autowired
 	WebApplicationContext webApplicationContext;
 
-	protected void setUp() {
+	@Before
+	public void setUp() {
 		mvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
 	}
 	protected String mapToJson(Object obj) throws JsonProcessingException {

@@ -12,6 +12,9 @@ public class Publication implements Serializable {
 	private String title;
 	private Integer year;
 	
+	public Publication() {
+	}
+
 	public Publication(String title, Integer year) {
 		this.title = title;
 		this.year = year;
