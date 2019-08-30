@@ -9,8 +9,10 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import com.geo.model.Author;
 import com.geo.model.Magazine;
 import com.geo.model.Magazine.MagazineType;
+import com.geo.model.Publication;
 
 @SpringBootTest
 public class MagazineTestApplication extends AbstractTest {
@@ -19,7 +21,9 @@ public class MagazineTestApplication extends AbstractTest {
 	public void addMagazine() throws Exception {
 		String uri = "/magazine";
 		
-		Magazine magazine = new Magazine("India Today", 2019, MagazineType.Printed.name());
+		Publication magazine = new Magazine("India Today", 1990, MagazineType.Printed.name());
+		Author author = new Author("Stephen King");
+		magazine.addAuthor(author);
 		
 		String inputJson = super.mapToJson(magazine);
 		MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.post(uri)

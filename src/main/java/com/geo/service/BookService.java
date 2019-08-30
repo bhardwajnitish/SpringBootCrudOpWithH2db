@@ -3,10 +3,11 @@ package com.geo.service;
 import java.util.List;
 
 import com.geo.model.Book;
+import com.geo.model.Publication;
 
 public interface BookService {
 
-	Book saveBook(Book book);
-	Book getBook(Integer bookId);
-	List<Book> getBooks();
+	Publication saveBook(Book book);
+	Publication getBook(Integer bookId);
+	List<Publication> getBooks();
 }

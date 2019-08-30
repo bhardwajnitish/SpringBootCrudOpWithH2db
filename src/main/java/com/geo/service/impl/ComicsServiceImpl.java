@@ -3,21 +3,18 @@ package com.geo.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Repository;
 
 import com.geo.model.Comics;
+import com.geo.model.Publication;
 import com.geo.repository.ComicsRepository;
-import com.geo.service.AuthorService;
 import com.geo.service.ComicsService;
 
-@Service
+@Repository
 public class ComicsServiceImpl implements ComicsService {
 
 	@Autowired
 	private ComicsRepository comicsRepository;
-
-	@Autowired
-	private AuthorService authorService;
 
 	@Override
 	public Comics saveComics(Comics comics) {
@@ -25,12 +22,12 @@ public class ComicsServiceImpl implements ComicsService {
 	}
 
 	@Override
-	public Comics getComics(Integer comicsId) {
-		return comicsRepository.findById(comicsId).orElse(new Comics(null, 0, null));
+	public Publication getComics(Integer comicsId) {
+		return comicsRepository.findById(comicsId).get();
 	}
 
 	@Override
-	public List<Comics> getComicss() {
+	public List<Publication> getComicss() {
 		return comicsRepository.findAll();
 	}
 

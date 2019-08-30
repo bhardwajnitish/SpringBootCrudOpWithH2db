@@ -4,14 +4,11 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
 @Entity
@@ -24,7 +21,7 @@ public class Author implements Serializable {
 	private Integer authorId;
 
 	private String name;
-	
+
 	public Author() {
 	}
 
@@ -32,24 +29,9 @@ public class Author implements Serializable {
 		super();
 		this.name = name;
 	}
-
-	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinTable(name = "author_book", joinColumns = {
-			@JoinColumn(name = "authorId", nullable = false, updatable = false) }, inverseJoinColumns = {
-					@JoinColumn(name = "bookId", nullable = false, updatable = false) })
-	private List<Book> books = new ArrayList<>();
-
-	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinTable(name = "author_magazine", joinColumns = {
-			@JoinColumn(name = "authorId", nullable = false, updatable = false) }, inverseJoinColumns = {
-					@JoinColumn(name = "magazineId", nullable = false, updatable = false) })
-	private List<Magazine> magazines = new ArrayList<>();
-
-	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinTable(name = "author_comics", joinColumns = {
-			@JoinColumn(name = "authorId", nullable = false, updatable = false) }, inverseJoinColumns = {
-					@JoinColumn(name = "comicsId", nullable = false, updatable = false) })
-	private List<Comics> comicses = new ArrayList<>();
+	
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "authors")
+	private List<Publication> publications;
 
 	/**
 	 * @return the authorId
@@ -82,77 +64,35 @@ public class Author implements Serializable {
 	}
 
 	/**
-	 * @return the books
+	 * @return the publications
 	 */
-	public List<Book> getBooks() {
-		return books;
+	public List<Publication> getPublications() {
+		return publications;
 	}
 
 	/**
-	 * @param books the books to set
+	 * @param publications
+	 *            the publications to set
 	 */
-	public void setBooks(List<Book> books) {
-		this.books = books;
+	public void setPublications(List<Publication> publications) {
+		this.publications = publications;
 	}
 
-	/**
-	 * @return the magazines
-	 */
-	public List<Magazine> getMagazines() {
-		return magazines;
-	}
-
-	/**
-	 * @param magazines the magazines to set
-	 */
-	public void setMagazines(List<Magazine> magazines) {
-		this.magazines = magazines;
-	}
-
-	/**
-	 * @return the comicses
-	 */
-	public List<Comics> getComicses() {
-		return comicses;
-	}
-
-	/**
-	 * @param comicses the comicses to set
-	 */
-	public void setComicses(List<Comics> comicses) {
-		this.comicses = comicses;
-	}
-
-	public void addBook(Book book) {
-		if (this.books == null) {
-			this.books = new ArrayList<>();
+	public void addPublication(Publication publication) {
+		if (this.publications == null) {
+			this.publications = new ArrayList<>();
 		}
-		this.books.add(book);
+		this.publications.add(publication);
 	}
 
-	public void addComics(Comics comics) {
-		if (this.comicses == null) {
-			this.comicses = new ArrayList<>();
-		}
-		this.comicses.add(comics);
-	}
-
-	public void addMagazine(Magazine magazine) {
-		if (this.magazines == null) {
-			this.magazines = new ArrayList<>();
-		}
-		this.magazines.add(magazine);
-	}
-
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
-		return "Author [authorId=" + authorId + ", name=" + name + ", books=" + books + ", magazines=" + magazines
-				+ ", comicses=" + comicses + "]";
-	}	
-
-
+		return "Author [authorId=" + authorId + ", name=" + name + ", publications=" + publications + "]";
+	}
 
 }

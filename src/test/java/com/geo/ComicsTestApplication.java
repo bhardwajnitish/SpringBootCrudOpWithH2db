@@ -11,6 +11,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import com.geo.model.Author;
 import com.geo.model.Comics;
+import com.geo.model.Publication;
 
 @SpringBootTest
 public class ComicsTestApplication extends AbstractTest {
@@ -18,12 +19,11 @@ public class ComicsTestApplication extends AbstractTest {
 	@Test
 	public void addComics() throws Exception {
 		String uri = "/comics";
-		
-		Comics comics = new Comics("Spider-women", 1990, "Spider-women");
-		Author author = new Author("Luther King");
+
+		Publication comics = new Comics("Death of Superman", 1990, "Superman");
+		Author author = new Author("Stephen King");
 		comics.addAuthor(author);
-		//author.addComics(comics);
-		
+
 		String inputJson = super.mapToJson(comics);
 		MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.post(uri)
 				.contentType(MediaType.APPLICATION_JSON_VALUE)

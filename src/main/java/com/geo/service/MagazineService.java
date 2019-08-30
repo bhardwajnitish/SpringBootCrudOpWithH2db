@@ -3,11 +3,12 @@ package com.geo.service;
 import java.util.List;
 
 import com.geo.model.Magazine;
+import com.geo.model.Publication;
 
 public interface MagazineService {
 
-	Magazine saveMagazine(Magazine magazine);
-	Magazine getMagazine(Integer magazineId);
-	List<Magazine> getMagazines();
+	Publication saveMagazine(Magazine magazine);
+	Publication getMagazine(Integer magazineId);
+	List<Publication> getMagazines();
 	
 }
